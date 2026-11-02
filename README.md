@@ -1,41 +1,116 @@
 # Signal School
 
-A local, playable synthesizer tutorial for Windows and standard MIDI controllers.
+An interactive synthesizer tutorial for Windows. Learn how sound is made, play four synth engines, and shape your own patches with a mouse, computer keyboard, or MIDI controller.
 
-## Launch
+## Launch on Windows
 
-Double-click **Launch Signal School.cmd**. It starts the local server in the background and opens Signal School in a standalone Windows app window, without browser tabs or an address bar. It uses installed Microsoft Edge (or Chrome as a fallback) in app mode. No Node, Python, npm, internet connection, or app installation is required. Keep all bundled files together. A command window may flash briefly at launch.
+**Requirements:** Windows with Windows PowerShell and Microsoft Edge or Google Chrome installed. A MIDI controller is optional. No Node.js, Python, npm, or build step is needed to run the app.
 
-Close the app window when finished. The lightweight localhost server stays in the background for quick reopening. Double-click **Stop Signal School.cmd** to stop it; launch again to restart. Closing a browser tab does not stop the server. The fixed address is http://localhost:8765/; keeping the same address preserves browser-local progress, mappings, and your saved patch. The server listens on localhost only. If port 8765 is occupied by another Signal School instance, the launcher reuses its server and opens an app window; if another app occupies it, it reports the conflict.
+1. Get the project:
+   - On [GitHub](https://github.com/zachwil/signal-school), choose **Code → Download ZIP**, then right-click the downloaded ZIP and choose **Extract All**.
+   - Or clone it with Git:
+     ```powershell
+     git clone https://github.com/zachwil/signal-school.git
+     ```
+2. Open the extracted or cloned folder. Keep its files and the `patches` folder together.
+3. Double-click **Launch Signal School.cmd**.
+4. In the app, click **Enable sound** in the top-right corner, then play a piano key.
 
-## Play
+If you already have the project folder, start at step 3. Launch from the extracted folder, rather than from inside the ZIP.
 
-Click **Enable sound**, then click/touch piano keys or use **A W S E D F T G Y H U J K**. The minus/plus buttons shift the on-screen and computer keyboard octaves. Controls support arrow keys after focusing them. Audio begins only after a user gesture. Start with a comfortable speaker volume.
+The launcher starts a local server in the background and opens a standalone app window using Edge, with Chrome as a fallback. A command window may flash briefly. After downloading, the app works offline.
 
-Nine guided lessons cover oscillators, subtractive synthesis, ADSR envelopes, LFOs, FM, additive synthesis, wavetable synthesis, and MIDI. The workstation fits the browser viewport without page scrolling. Lessons, synth controls, piano, MIDI connection, and quiz remain on screen together; choose numbered step tabs to read each prompt. The workspace fills the entire app window and recalculates its layout whenever the window is resized. Individual controls, graphs, and the piano retain bounded sizes. It adapts to width and height and scales a readable 1440 × 960 workspace both up and down with the window. Text grows on large displays and gets smaller in small windows. Resize or maximize the browser for larger controls. Each lesson includes an experiment, a knowledge check, and numbered step tabs with Show buttons that highlight and focus the exact controls. Matching step labels highlight the relevant controls. A Show button restores the lesson's engine if you switched to a different one. The interface uses a dark synthwave palette with neon cyan and pink accents. Four independently implemented engines share a low-pass filter and amplitude envelope; the oscilloscope displays actual output. Source and filter controls update held notes; ADSR changes apply to the next note (Release applies on note-off). Engine and waveform changes stop existing notes.
+### Close and reopen
 
-## MIDI controllers
+Close the app window when finished. The local server stays running so you can reopen quickly with **Launch Signal School.cmd**. To stop the server too, double-click **Stop Signal School.cmd**.
 
-Connect any standard MIDI 1.0 controller exposed as a MIDI input by Windows. Click **Connect MIDI** and allow browser MIDI access. The app displays the selected input's reported name and manufacturer, updates lesson and setup text, and observes notes, CCs, pitch bend, and sustain as messages arrive. Select among multiple inputs using the dropdown; unplugged inputs disappear and the next available input is selected. Notes are stopped when the active input disappears or changes.
+### Launch from PowerShell
 
-Keys, note-mode pads, sequencers, and other note sources play the synth. CC-only surfaces can control it while you play the on-screen keyboard. Use each parameter's **LEARN** button, then move an absolute CC knob or fader. **Map controls** guides up to eight assignments; cancel when you've assigned the controls you need. Mappings remain separate per MIDI device ID and channel, and explicit input selection is remembered. Device IDs can change between ports or browsers, requiring mapping again.
+Open PowerShell in the project folder and run:
 
-MIDI reports input names and manufacturer strings, not physical control layouts, knob counts, or reliable capability inventories. The displayed activity reflects messages actually received. No guessed factory mapping is applied, and the app does not reprogram hardware. Use absolute 0–127 CC mode; relative encoders, MIDI 2.0 UMP, and per-note MPE expression are not implemented. Sustain CC64, channel pitch bend ±2 semitones, velocity, and modulation CC1 are supported. Learned CC1 assignments override vibrato; CC64 and all-notes-off CC120/123 are reserved. Controller arpeggiators can send notes; no MIDI clock is sent.
+```powershell
+& '.\Launch Signal School.cmd'
+```
 
-If you hear nothing: enable sound, check output volume, verify the selected MIDI input, and check the MIDI monitor. If the device is missing, close any app that may hold it, reconnect USB, and refresh MIDI. Web MIDI requires a compatible browser and permission; localhost is a trusted context. Mouse/computer play works without MIDI. **All notes off**, switching lessons/engines, changing tabs, and losing window focus stop notes.
+While the server is running, you can also open <http://localhost:8765/> in Edge or Chrome. Use the launcher to get the standalone window.
 
-Save/Load stores one patch in this browser. Export/Import keeps portable JSON patch files. MIDI mappings and progress are separate from patch files. Clearing browser site data resets local saves. All assets are local and work offline.
+## Start playing
 
-## Implementation
+- Click or touch the on-screen piano, or play with **A W S E D F T G Y H U J K** on your computer keyboard.
+- Use the **− / +** octave buttons to shift the on-screen and computer keyboards.
+- Follow the numbered lesson prompts. Each **Show** button highlights and focuses the control to change.
+- Resize or maximize the app window for larger text and controls.
+- Click **All notes off** to stop sounding notes.
 
-Buildless HTML/CSS/JavaScript, Web Audio, Web MIDI, and an inbox Windows PowerShell HTTP server. No external dependencies or analytics. Polyphony is capped at 24 voices. Subtractive uses two detuned oscillators; FM uses a sine carrier and audio-rate sine modulator; additive sums up to 16 harmonic partials via a periodic wave; wavetable interpolates harmonic spectra between sine, saw-like, and square-like tables. These are introductory engines rather than emulations of specific hardware synths.
+Start with a comfortable speaker volume. Sound begins after you click **Enable sound**.
 
-Reference: [Web MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API).
+## What you can learn
 
-The standalone window uses the same local address and default Edge profile as earlier launches, preserving that profile's saves and MIDI permissions. If you previously used another browser, export your patch there and import it in the app window. On the first upgrade, an older running server may not support Stop Signal School.cmd; stop the old server console or restart Windows once.
+Nine lessons introduce oscillators, filters, envelopes, modulation, MIDI, and sound design. Four playable engines let you compare different ways of creating sound:
 
-## Final experiment: Sound Lab
+| Engine | How it makes sound |
+| --- | --- |
+| Subtractive | Starts with two detuned oscillators, then removes brightness with a filter. |
+| FM | Uses one oscillator to modulate another at audio rates. |
+| Additive | Builds a tone by combining harmonic partials. |
+| Wavetable | Blends between harmonic spectra to change the tone's character. |
 
-Choose lesson **09 / Final sound lab**. A docked recipe panel replaces the tutorial and quiz, leaving the instrument playable beside it. Use **Construction** for the sound-building explanation and **All parameters** for the live Current-versus-Recipe table. Five examples cover warm bass, a slow pad, an FM bell, an additive organ, and a wavetable pad. Select a construction stage (Raw source, Filter, Envelope, Full patch + motion) and click **Load & audition** to synthesize a phrase or chord. Each example includes a four-part construction explanation, a hands-on challenge, and a complete Current-versus-Recipe parameter table. Values that differ are highlighted; engine-inactive parameters are labeled.
+All engines share a low-pass filter and amplitude envelope. The oscilloscope shows the actual output, and the envelope view illustrates how a note develops over time. These are introductory engines, rather than emulations of specific hardware synths.
 
-Loading an example replaces the current patch, so export anything you want to keep first. The `patches` folder also contains all five finished recipes as JSON files for Import. The table describes the synth parameters; note pitch, velocity, and duration come from the audition or your performance. LFO modulation is pitch vibrato in this lab; wavetable position changes only when you move its control.
+### Final experiment: Sound Lab
+
+Choose **09 / Final sound lab** to replace the lesson panel with sound-building recipes.
+
+1. Choose warm bass, a slow pad, an FM bell, an additive organ, or a wavetable pad.
+2. Select a construction stage: **Raw source**, **Add filter**, **Add envelope**, or **Full patch + motion**.
+3. Click **Load & audition** to hear a synthesized phrase or chord.
+4. Use **Construction** for the explanation and challenge, or **All parameters** to compare your current settings with the finished recipe.
+
+Loading an example replaces the current patch, so export any sound you want to keep first. All five finished recipes are also available as JSON files in [`patches/`](patches/) for importing.
+
+## Connect and map a MIDI controller
+
+Standard MIDI 1.0 controllers are supported, including the Akai MPK mini mk2. The app displays the selected input's reported name and manufacturer and updates its setup and lesson text for that input.
+
+1. Connect your controller to Windows.
+2. Click **Connect MIDI** in the app and allow MIDI access when prompted.
+3. If you have multiple inputs, select the controller you want to use.
+4. Play its keys or note-mode pads to play the synth.
+5. To assign a knob or fader, click **LEARN** beside a synth parameter, then move that hardware control. Use **Map controls** for a guided sequence of up to eight assignments; cancel when you have assigned enough.
+
+Use absolute **0–127 CC** mode for knobs and faders. Mappings are saved separately for each MIDI device ID and channel. Changing USB ports or browsers may change the device ID and require mapping again. The app observes incoming messages; it does not infer the controller's physical layout or reprogram its hardware.
+
+Velocity, sustain (CC64), pitch bend (±2 semitones), and modulation (CC1) are supported. A learned CC1 assignment overrides its default vibrato function. CC64 and all-notes-off CC120/123 are reserved. Relative encoders, MIDI 2.0 UMP, per-note MPE expression, and MIDI clock output are not implemented.
+
+## Save your sounds
+
+- **Save / Load** keeps one patch in the current browser profile.
+- **Export / Import** saves and opens portable JSON patch files.
+- Lesson progress and MIDI mappings are stored separately from patches.
+
+Local saves depend on the browser profile and the app address, `http://localhost:8765/`. Clearing browser site data resets them. To move a patch between browsers or computers, export it and import it in the other app.
+
+## Troubleshooting
+
+| Problem | What to try |
+| --- | --- |
+| No sound | Click **Enable sound**, check the app and Windows output volume, then play an on-screen key. For MIDI, also check the selected input and MIDI monitor. |
+| Controller is missing | Reconnect USB, close other music apps that may hold the MIDI port, and click **Refresh MIDI**. Check that Windows recognizes the device. |
+| Notes keep sounding | Click **All notes off**. Switching lessons or engines, changing tabs, and losing window focus also stop notes. |
+| App window will not open | Make sure Edge or Chrome is installed and that all project files have been extracted together. |
+| Server cannot start | Another app may be using port **8765**. Stop that app or a previous Signal School server, then launch again. |
+| Text or controls are too small | Enlarge or maximize the app window; the workspace scales with its size. |
+| Stop command does not stop an older server | An older version may lack shutdown support. Close its server console or restart Windows once. |
+
+## Development
+
+Signal School uses HTML, CSS, JavaScript, Web Audio, Web MIDI, and a Windows PowerShell server bound to localhost. There are no external runtime dependencies or analytics. Polyphony is limited to 24 voices.
+
+Node.js is needed only for the development checks:
+
+```powershell
+node --check app.js
+node tests.cjs
+```
+
+GitHub Actions also runs these checks and parses the Windows PowerShell scripts on a Windows runner.
