@@ -1,0 +1,23 @@
+{
+  "format": "signal-school",
+  "version": 1,
+  "engine": "subtractive",
+  "waveform": "sawtooth",
+  "params": {
+    "cutoff": 650,
+    "resonance": 3,
+    "attack": 0.005,
+    "decay": 0.18,
+    "sustain": 0.4,
+    "release": 0.12,
+    "lfoRate": 3,
+    "lfoDepth": 0,
+    "detune": 7,
+    "fmRatio": 2,
+    "fmIndex": 1.8,
+    "harmonics": 6,
+    "tilt": 1.2,
+    "position": 0
+  },
+  "volume": 0.3
+}
