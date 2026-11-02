@@ -1,0 +1,8 @@
+# Generated downloads and local preview captures
+*.zip
+*.png
+*.log
+*.tmp
+node_modules/
+.DS_Store
+Thumbs.db
